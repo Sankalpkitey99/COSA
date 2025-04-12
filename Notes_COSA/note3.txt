@@ -13,3 +13,6 @@ http://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/ad-ds-simp
 
 -basics 
 http://learn.microsoft.com/en-us/windows/win32/fileio/basic-and-dynamic-disks
+
+
+cosa part 2 all
