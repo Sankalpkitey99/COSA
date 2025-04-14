@@ -1,8 +1,0 @@
-1.python
-2.SQL
-3.FCN
-4.Linux
-5.Windows admin
-6.Aptitude
-
-000C29E2C0C7
