@@ -1,7 +1,7 @@
 NOTES---
 
 
-Partition style
+Partition style---
 
 MBR - Master Boot record
 
