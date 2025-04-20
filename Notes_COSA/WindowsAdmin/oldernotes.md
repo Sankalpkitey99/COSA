@@ -1,3 +1,9 @@
+
+----COSA NOTES-----
+Types of Volume 
+
+
+
 🔹 Simple Volume
 A basic volume created from unallocated space on a single disk.
 
