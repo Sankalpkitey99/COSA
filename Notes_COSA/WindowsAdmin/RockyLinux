@@ -1,0 +1,205 @@
+====================*Rocky Linux*====================
+
+basic cmds and administration
+
+to change hostname:
+hostnamectl set-hostname <hostname>
+
+to see IP:
+ip a
+
+to assing IP:
+nmtui
+
+
+to view disk information:
+fdisk
+
+for eg. fdisk /dev/sdb
+n -> p -> 1default -> size(e.g 12GB)
+
+To assing extension:
+mkfs.ext4 <disk>
+e.g. -> mkfs.ext4 /dev/sdb
+
+to mount file:
+mount -t auto <diskpath> <fiilepath>
+mount -t autp  /dev/sdb   /mnt/file1
+
+to create a directory:
+mkdir 
+
+to go to currrent dir:
+cd
+
+to view present working directory path:
+pwd
+
+to create multiple report 
+touch textNo{1..n}.txt
+
+to permanetly mount the disk and file
+use :-> vi /etc/fstab
+<diskpath> <filepath> <extensiontype> <defaults> 0 0
+/dev/sdb  /mnt/dac     auto    defaults 0 0
+
+to unmount the disk:
+ -> umount <pathfile>
+ e.g umount /dev/sdb1
+
+to remount by giving permission
+mount -o remount,ro /ditiss
+mount -o remount,rw  /ditiss
+readonly and readwrite
+
+tar:- use to compress the file
+
+to check the disk connection
+fdisk -l
+
+----------------*Volumes*-----------------
+to create physical volumes 
+pvcreate <disk> 
+pvcreate /dev/sdb1
+# can create multiple by addiing more 
+
+to see physical volume 
+pvs
+
+to create volume group 
+vgcreate <nameofvg> <disk> <file>
+vgcreate sunbeam-vg /dev/sdb /mnt/file1
+
+to see vg group
+vgs
+
+to extend or add more volume group
+vgextend
+
+
+too create a volume group 
+lvcreate -n <name> -L <GB> <volumegroup>
+
+to see logical group
+lvs or lvdisplay
+
+to extend or add more volume group 
+lvextend -l <GB> <path>
+lvextend -L +5G /dev/sunbeam-vg/lv-dbda 
+
+## NEED TO CHECK FIRST
+e2fsck -f /dev/sunbeam/lvdbda
+e2fsck -f <path of lg vol>
+
+
+# use  df -khT to see the disk real size
+
+to resize the volume 
+resize2fs <path of lv vg > <size>
+resize2fs /dev/sunbeam-vg/lvdbda 15G
+
+## to extend its simple 
+just use
+lvextend -> resize2fs
+
+## to reduce
+umount -> e2fsck -> resize2fs -> lvreduce -> Mount
+
+*/ password policy /*
+
+/etc/passwd
+Purpose: Stores user account information (username, UID, GID, home directory, shell).
+
+/etc/shadow (more secure)
+Purpose: Stores the hashed passwords.
+
+/etc/login.defs
+Purpose: To store user account and ownership information
+useradd
+passwd
+
+
+chage - cmd use to allow password policy application
+-l	Show current aging settings for a user
+-M	Set maximum days a password is valid
+-m	Set minimum days between password changes
+-W	Set number of days of warning before password expires
+-I	Set number of inactive days before account is locked
+-E	Set account expiration date (YYYY-MM-DD)
+
+chage -m 3 -M 35 -W 10 <user>
+
+/etc/security/pwquality.conf
+- use to set the password complexity/parameters
+like min length, max length, special and digit char
+
+
+-g -> primary group
+-G -> secondary group
+
+for eg. faculty and ditiss aare those grps in which a student must have permms to ditiss but not to faculty (-g) But a lab assistant  shouldd have ascces to both the groups (-G)
+student - A
+lab assistant -B
+
+useradd -g ditiss A
+
+useradd -G faculty B
+
+*gpasswd*- used to add/remove user from a group
+
+### WE CAN giver ROOT acces via 2 method
+*visudo* - we can give acces to the user
+
+*/full root access/*
+username ALL=(ALL)  ALL
+*/to specific cmd/*
+username ALL=(ALL) NOPASSWD: /path/to/Commd
+
+*wheel group*
+usermod -G wheel username 
+
+to remove
+gpasswd -d username wheel
+
+.bashrc
+When it runs: Every time you open a new terminal (non-login shell)
+Use: Customize your environment — aliases, prompt (PS1), color, etc.
+
+Example:
+bash
+Copy
+Edit
+alias ll='ls -la'
+export PATH=$PATH:/opt/scripts
+
+.bash_profile (or sometimes .profile)
+When it runs: At login (only once when you log in).
+Use: Setup environment variables, run .bashrc if needed.
+Example:
+bash
+Copy
+Edit
+export PATH=$PATH:$HOME/bin
+[[ -f ~/.bashrc ]] && source ~/.bashrc
+
+.bash_logout
+When it runs: When you log out of a login shell.
+Use: Clean-up tasks, echo reminders, unmount things.
+Example:
+bash
+Copy
+Edit
+echo "Don't forget to take backup!"
+
+.bash_history
+What it does: Stores your command history (used by history command).
+Location: ~/.bash_history
+Use: View past commands, repeat them easily.
+Tip: To view it:
+bash
+Copy
+Edit
+cat ~/.bash_history
+
+
+*/etc/skel*- serves as templates for cretaing a user home fir
