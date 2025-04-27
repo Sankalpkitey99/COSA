@@ -1,0 +1,83 @@
+
+
+*for volume*
+pvcreate /dev/sdb
+pvcreate /dev/sdc
+vgcreate datavg /dev/sdb /dev/sdc
+lvcreate -L 12G -n datalv datavg
+mkfs.ext4 /dev/datavg/datalv
+lvextend -L +8G /dev/datavg/backuplv
+resize2fs /dev/datavg/backuplv
+
+red
+umount /backup
+e2fsck -f /dev/datavg/backuplv
+resize2fs /dev/datavg/backuplv 26G
+lvreduce -L 26G /dev/datavg/backuplv
+mount /dev/datavg/backuplv /backup
+
+*for http*
+
+yum install httpd
+cd etc httpd
+conf.d
+systemctl start httpd
+en
+
+
+fierewall 80/tcp
+mkdir /var/www/html/myinfo.lab
+create index.html 
+
+vi /etc/httpd/conf.d/virtualhost.cnf
+<VirtualHost *:80>
+    ServerName www.info.lab
+    ServerAdmin admin@myinfo.lab
+    DocumentRoot /var/www/myinfo.lab
+    ErrorLog logs/myinfo.lab-error.log
+    customLog logs/myinfo.lab-customlog combined
+</VirtualHost>
+
+*for Dhcp*
+yum install dhcp-server
+ --cd /etc/dhcp
+ dhcpd.conf
+
+ vi etc dhcp dhcpd.conf
+ cpy user
+ vi user
+
+ hostmaster mac add
+
+ firewall-cmd 67udp
+
+ sys start dhcpd
+ setenforece 
+
+
+*for Dns*
+
+*for samba*
+yum install samba samba-client samba-common
+cd /etc/samba
+vi smb.conf
+---- add WORKGROUP
+useradd sam
+passwd sam
+
+mkdir /fac
+chmod 777 /fac
+chown sam:sam /fac
+
+firewall-cmd --add-service={samba,samba-client} --permanent
+
+syst start smb
+            nmb
+
+setenforce
+smbpasswd -a sam
+*****
+# windws
+win+R
+\\ ip of the file
+192.168.13.10
