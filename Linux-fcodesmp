@@ -56,6 +56,34 @@ yum install dhcp-server
 
 
 *for Dns*
+yum install bind bind-utils -y
+vi etcnamed.conf
+-- add ip 
+---- any
+--- zone 
+--- master
+---- ip
+cd /var/named
+remove @
+
+sys start named
+file permissiion 
+chown named demo.lab.zone
+
+vi /etc/resolve.conf
+nameserver -ip
+---- for pc 2---
+open firewall for dns
+
+and add ip of ser
+vi /etc/resolv.conf
+nameserver - ip
+
+
+
+cp named.localhost demo.lab.zone
+vi demo .lab .zone
+
 
 *for samba*
 yum install samba samba-client samba-common
@@ -81,3 +109,38 @@ smbpasswd -a sam
 win+R
 \\ ip of the file
 192.168.13.10
+
+for squid
+
+
+
+
+file for revzone
+$TTL 1D
+@       IN SOA  ns1  admin.demo.lab (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      ns1
+10      IN      PTR     www.demo.lab.
+11      IN      PTR     exam.demo.lab.
+
+~
+forewd
+
+$TTL 1D
+@       IN SOA   ns1  admin.demo.lab. (
+                                        0       ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H )    ; minimum
+        NS      ns1
+ns1     IN      A       192.168.13.10
+www     IN      A       192.168.20.10
+exam    IN      A       192.168.20.11
+dbserver        IN      A       192.168.20.12
+dbsrv           IN      CNAME   dbserver
+
