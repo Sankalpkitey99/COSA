@@ -90,7 +90,7 @@ Best for USB drives or external drives for universal compatibility.
 - select local users and group 
 - in users right click add user
 - remember to see the passwords policy
-- 
+  
 
 
 🔹 Domain
