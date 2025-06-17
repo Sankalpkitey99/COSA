@@ -1,5 +1,7 @@
 Samples of codes not full fledged
 
+---------------------------------
+
 *for volume*
 pvcreate /dev/sdb
 pvcreate /dev/sdc
